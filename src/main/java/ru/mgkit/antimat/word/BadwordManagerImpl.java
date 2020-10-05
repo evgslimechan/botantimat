@@ -2,17 +2,15 @@ package ru.mgkit.antimat.word;
 
 import ru.mgkit.antimat.util.ConfigUtil;
 import ru.mgkit.antimat.util.tree.Tree;
+import ru.mgkit.antimat.util.tree.TreeNode;
 
 import java.util.*;
 
 public class BadwordManagerImpl implements BadwordManager {
 
-    private static final String CONFIG_NAME = "config.properties";
-
-    private Tree<String> badWords;
+    Map<String, List<String>> charDict = new HashMap<>();
 
     protected BadwordManagerImpl() {
-        Map<String, List<String>> charDict = new HashMap<>();
         charDict.put("а", Arrays.asList("а", "a", "@"));
         charDict.put("б", Arrays.asList("б", "6", "b"));
         charDict.put("в", Arrays.asList("в", "b", "v"));
@@ -46,50 +44,12 @@ public class BadwordManagerImpl implements BadwordManager {
         charDict.put("э", Arrays.asList("э", "е", "e"));
         charDict.put("ю", Arrays.asList("ю", "io"));
         charDict.put("я", Arrays.asList("я", "ya"));
-
-        ConfigUtil.loadDefaultConfigFile(CONFIG_NAME);
-        ConfigUtil.loadDictionary(
-                ConfigUtil.getConfigValue(CONFIG_NAME, ConfigUtil.ConfigParam.DICTIONARY_FILE),
-                ConfigUtil.getConfigValue(CONFIG_NAME, ConfigUtil.ConfigParam.DICTIONARY_DELIM));
-
-        // листья использовать для доп символов
-        // ветви для продолжения слова
-
     }
 
 
     @Override
-    public boolean isBad(String word) {
-        return false;
-    }
-
-    @Override
-    public void addWord(String word) {
-    }
-
-    @Override
-    public void removeWord(String word) {
-
-    }
-
-    @Override
-    public void setCharDict(char key, char[] charDict) {
-
-    }
-
-    @Override
-    public char[] getCharDict(char key) {
-        return new char[0];
-    }
-
-    @Override
-    public void addCharToDict(char key, char charToAdd) {
-
-    }
-
-    @Override
-    public void removeCharFromDict(char key, char charToRemove) {
-
+    public boolean isBad(String text) {
+        return ConfigUtil.getBadWords().parallelStream().anyMatch(text::contains);
     }
 
 }

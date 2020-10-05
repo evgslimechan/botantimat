@@ -31,6 +31,10 @@ public class TreeNode<T> {
         this.nodes.remove(node);
     }
 
+    public boolean containsInChild(T value) {
+        return nodes.parallelStream().anyMatch(node -> node.getValue().equals(value));
+    }
+
     public boolean isLeaf() {
         return nodes != null && nodes.size() == 0;
     }

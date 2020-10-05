@@ -6,16 +6,4 @@ public interface BadwordManager {
 
     boolean isBad(String word);
 
-    void addWord(String word);
-
-    void removeWord(String word);
-
-    void setCharDict(char key, char[] charDict);
-
-    char[] getCharDict(char key);
-
-    void addCharToDict(char key, char charToAdd);
-
-    void removeCharFromDict(char key, char charToRemove);
-
 }
